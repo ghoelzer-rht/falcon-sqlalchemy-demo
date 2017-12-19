@@ -3,7 +3,7 @@
 source ./setup.sh
 
 function run_dev_server {
-    gunicorn --port=8080 falcon_web_demo.wsgi:app
+    gunicorn -b 127.0.0.1:8080 falcon_web_demo.wsgi:app
 }
 
 eval_in_virtual_environment run_dev_server
