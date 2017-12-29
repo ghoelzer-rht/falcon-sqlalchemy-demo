@@ -10,8 +10,8 @@ function eval_in_virtual_environment {
     source ${VIRTUALENV_NAME}/bin/activate
     pip install --upgrade pip
     pip install --upgrade wheel
-    pip install -r requirements.txt
-    pip install -r requirements-dev.txt
+    pip install -r $APP_ROOT/requirements.txt
+    pip install -r $APP_ROOT/requirements-dev.txt
     deactivate
     source ${VIRTUALENV_NAME}/bin/activate
     PYTHONPATH=$PYTHONPATH:. alembic upgrade head
