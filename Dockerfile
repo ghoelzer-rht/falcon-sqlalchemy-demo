@@ -19,10 +19,17 @@ LABEL author="Greg Hoelzer <Greg.Hoelzer@microsoft.com>" \
       io.k8s.expose-services="8080:http" \
       io.k8s.tags="demo,python,falcon,sqlite"
 # Clone project onto image
-RUN mkdir -p /opt/falcon-sqlalchemy-demo && \
+RUN mkdir -p /opt/falcon-sqlalchemy-demo && mkdir /env && \ 
     git clone https://github.com/ghoelzer-rht/falcon-sqlalchemy-demo.git /opt/falcon-sqlalchemy-demo
+# Additional Base Python Packages required
+RUN pip install virtualenv
 # Run code with default, Non-Root User
-RUN chown -R 1001:1001 /opt/falcon-sqlalchemy-demo
+RUN chown -R 1001:1001 /opt/falcon-sqlalchemy-demo && chown -R 1001:1001 /env
+# Add Python & System Libraries to Root Group
+RUN chgrp -R 0 /usr/local 
+RUN chmod -R g+rw /usr/local 
+RUN find /usr/local -type d -exec chmod g+x {} + 
+# Set App Root for Startup Scripts
 ENV APP_ROOT="/opt/falcon-sqlalchemy-demo"
 USER 1001
 # Expose API Endpoint
