@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Assumes APP_ROOT Environment Variable Set
 
+cd $APP_ROOT
 source $APP_ROOT/setup.sh
 
 function run_dev_server {
