@@ -11,3 +11,23 @@
 # Was able to git clone project into /opt and startup app with /run_dev_server.sh command.  
 # Will build Dockefile from this base and create separate user/group for security purposes exposing port 8080
 #
+# Latest official python image from Docker Hub
+FROM  python:latest
+LABEL author="Greg Hoelzer <Greg.Hoelzer@microsoft.com>" \
+      io.k8s.description="Demo Python/Falcon REST API with sqlite" \
+      io.k8s.display-name="falcon-sqlalchmey-demo" \
+      io.k8s.expose-services="8080:http" \
+      io.k8s.tags="demo,python,falcon,sqlite"
+# Clone project onto image
+RUN mkdir -p /opt/falcon-sqlalchemy-demo && \
+    git clone https://github.com/ghoelzer-rht/falcon-sqlalchemy-demo.git /opt/falcon-sqlalchemy-demo
+# Run code with default, Non-Root User
+RUN chown -R 1001:1001 /opt/falcon-sqlalchemy-demo
+ENV APP_ROOT="/opt/falcon-sqlalchemy-demo"
+USER 1001
+# Expose API Endpoint
+EXPOSE 8080
+# Start Falcon/Python Http Server & Application
+ENTRYPOINT /opt/falcon-sqlalchemy-demo/run_dev_server.sh
+
+
