@@ -14,7 +14,7 @@ function eval_in_virtual_environment {
     pip install -r $APP_ROOT/requirements-dev.txt
     deactivate
     source ${VIRTUALENV_NAME}/bin/activate
-    PYTHONPATH=$PYTHONPATH:$APP_ROOT:. alembic upgrade head
+    PYTHONPATH=/usr/local/bin/python:$APP_ROOT:. alembic upgrade head
     echo "Running '$1' inside virtual environment…"
     $1
 }
